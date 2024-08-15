@@ -30,10 +30,8 @@ public class StudentDAO {
 
             Connection conn = DriverManager.getConnection(url, username, password);
 
-            Statement s = conn.createStatement();
-
             // SQL query for insertion
-            String query = "INSERT INTO Student VALUES('" + student.getStudentID() + "', '" + student.getStudentName() + "','" + student.getStudentMobile() + "')";
+             String query = "INSERT INTO Student (StudentID, StudentName, StudentMobile) VALUES (?, ?, ?)";
             // Validation patterns
             String mobileValidation = "^(\\+?27|0)\\d{9}$";
             String idValidation = "^\\d+$";
@@ -43,7 +41,12 @@ public class StudentDAO {
                 showAlert(Alert.AlertType.ERROR, "Please fill in all fields.", "Error", "Error adding student");
 
             } else if (student.getStudentMobile().matches(mobileValidation) && student.getStudentID().matches(idValidation)) {
-                s.executeUpdate(query);
+                PreparedStatement ps = conn.prepareStatement(query);
+                ps.setString(1, student.getStudentID());
+                ps.setString(2, student.getStudentName());
+                ps.setString(3, student.getStudentMobile());
+
+                ps.executeUpdate();
                 showAlert(Alert.AlertType.INFORMATION, "Student added successfully: " + student, "Success", "Student Added");
             } else if (!student.getStudentID().matches(idValidation)) {
                 showAlert(Alert.AlertType.ERROR, "Please enter a valid ID", "Invalid Input", "Invalid ID format");
