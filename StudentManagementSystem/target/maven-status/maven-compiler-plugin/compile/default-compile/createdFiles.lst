@@ -1,0 +1,5 @@
+com\admin\studentmanagementsystem\Student.class
+com\admin\studentmanagementsystem\MainController.class
+module-info.class
+com\admin\studentmanagementsystem\StudentDAO.class
+com\admin\studentmanagementsystem\App.class
